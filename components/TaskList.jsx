@@ -10,11 +10,7 @@ function TaskList ({setCurrentView, tasks, deleteTask, editTask, setEditingTask,
     }
 
     const toggleDone = (id) => {
-        if (tasks[id].done){
-            editTask(id, "done", false);
-        } else {
-            editTask(id, "done", true);
-        }
+        editTask(id, "done", !tasks[id].done);
     }
 
     return (
