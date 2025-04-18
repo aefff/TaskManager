@@ -1,11 +1,20 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import TaskForm from './components/TaskForm.jsx';
-import TaskList from './components/TaskList.jsx'
-import Lost from './components/Lost.jsx'
+import TaskList from './components/TaskList.jsx';
+import Lost from './components/Lost.jsx';
 
 function App() {
-    const [currentView, setCurrentView] = useState('App'); // State to track the view
+    const [currentView, setCurrentView] = useState('App');
+    const [tasks, setTasks] = useState([]); // 💡 Array of task objects
+
+    const addTask = (task) => {
+        setTasks(prevTasks => [...prevTasks, task]);
+    };
+
+    const deleteTask = (id) => {
+        setTasks(tasks.filter((_, index) => index !== id));
+    }
 
     return (
         <div>
@@ -18,11 +27,11 @@ function App() {
                     <button onClick={() => setCurrentView('TaskList')}>Go to Task List</button>
                 </>
             ) : currentView === 'TaskForm' ? (
-                <TaskForm setCurrentView={ setCurrentView } />
+                <TaskForm setCurrentView={setCurrentView} addTask={addTask} setTasks={setTasks} />
             ) : currentView === 'TaskList' ? (
-                <TaskList setCurrentView={ setCurrentView } />
+                <TaskList setCurrentView={setCurrentView} tasks = {tasks} deleteTask={deleteTask} />
             ) : (
-                <Lost setCurrentView={ setCurrentView } />
+                <Lost setCurrentView={setCurrentView} />
             )}
         </div>
     );
