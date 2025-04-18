@@ -5,8 +5,12 @@ import TaskList from './components/TaskList.jsx';
 import Lost from './components/Lost.jsx';
 
 function App() {
+
     const [currentView, setCurrentView] = useState('App');
     const [tasks, setTasks] = useState([]); // 💡 Array of task objects
+    const [editingTask, setEditingTask] = useState(null);
+    const [editingIndex, setEditingIndex] = useState(null);
+
 
     const addTask = (task) => {
         setTasks(prevTasks => [...prevTasks, task]);
@@ -16,6 +20,14 @@ function App() {
         setTasks(tasks.filter((_, index) => index !== id));
     }
 
+    const editTask = (id, component, value) => {
+        setTasks(prevTasks => {
+            const updatedTasks = [...prevTasks];
+            updatedTasks[id] = { ...updatedTasks[id], [component]: value };
+            return updatedTasks;
+        })
+    }
+
     return (
         <div>
             {currentView === 'App' ? (
@@ -23,13 +35,27 @@ function App() {
                     <h1>Welcome to the Task Manager</h1>
                     <p>Start managing your tasks here!</p>
 
-                    <button onClick={() => setCurrentView('TaskForm')}>Go to Task Form</button>
-                    <button onClick={() => setCurrentView('TaskList')}>Go to Task List</button>
+                    <button onClick={() => setCurrentView('TaskForm')}>Add a task</button>
+                    <button onClick={() => setCurrentView('TaskList')}>Go to task List</button>
                 </>
             ) : currentView === 'TaskForm' ? (
-                <TaskForm setCurrentView={setCurrentView} addTask={addTask} setTasks={setTasks} />
+                <TaskForm
+                    setCurrentView={setCurrentView}
+                    addTask={addTask}
+                    setTasks={setTasks}
+                    editingTask={editingTask}
+                    editingIndex={editingIndex}
+                    setEditingTask={setEditingTask}
+                />
             ) : currentView === 'TaskList' ? (
-                <TaskList setCurrentView={setCurrentView} tasks = {tasks} deleteTask={deleteTask} />
+                <TaskList
+                    setCurrentView={setCurrentView}
+                    tasks={tasks}
+                    deleteTask={deleteTask}
+                    editTask={editTask}
+                    setEditingTask={setEditingTask}
+                    setEditingIndex={setEditingIndex}
+                />
             ) : (
                 <Lost setCurrentView={setCurrentView} />
             )}

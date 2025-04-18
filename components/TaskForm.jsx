@@ -1,12 +1,28 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 
-function TaskForm({ setCurrentView , addTask}) {
+function TaskForm ({setCurrentView, addTask, setTasks, editingTask, editingIndex, setEditingTask}){
 
     const [name, setName] = useState("");
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
     const [description, setDescription] = useState("");
     const [done, setDone] = useState(false);
+
+    useEffect(() => {
+        if (editingTask) {
+            setName(editingTask.name);
+            setStartDate(new Date(editingTask.startDate));
+            setEndDate(new Date(editingTask.endDate));
+            setDescription(editingTask.description);
+            setDone(editingTask.done);
+        } else {
+            setName("");
+            setStartDate(new Date());
+            setEndDate(new Date());
+            setDescription("");
+            setDone(false);
+        }
+    }, [editingTask]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -18,30 +34,51 @@ function TaskForm({ setCurrentView , addTask}) {
 
         const task = {
             name,
-            startDate: startDate.toISOString(),
-            endDate: endDate.toISOString(),
+            startDate: startDate.toLocaleDateString(),
+            endDate: endDate.toLocaleDateString(),
             description,
             done
         }
-        addTask(task);
+
+        if (!editingTask) {
+            addTask(task);
+        } else {
+            setTasks(prev => {
+                const updatedTasks = [...prev];
+                updatedTasks[editingIndex] = task;
+                return updatedTasks;
+            })
+        }
         setCurrentView("TaskList");
     }
 
+
     return (
         <div>
-            <p>Welcome to the task form</p>
-            <button onClick={() => setCurrentView('App')}>Go to homepage</button><br/><br/>
+            <p>{editingTask ? `Editing task: ${editingTask.name}` : "Creating a new task"}</p>
+
+            <button onClick={() => setCurrentView('App')}>Go to homepage</button>
+            <button onClick={() => setCurrentView('TaskList')}>Go to task List</button>
+
+            <br/><br/>
+
             <form onSubmit={handleSubmit}>
 
+                <label>Name:</label><br/>
                 <input type={"text"} value={name} onChange={(e) =>
                     setName(e.target.value)}/><br/>
 
-                <input type={"date"} value={startDate.toISOString().split('T')[0]} onChange={(e) =>
-                    setStartDate(new Date(e.target.value))}/><br/>
+                <label>Start date:</label><br/>
+                <input type={"date"} value={startDate.toISOString().split('T')[0]}
+                       onChange={(e) =>
+                           setStartDate(new Date(e.target.value))}/><br/>
 
-                <input type={"date"} value={endDate.toISOString().split('T')[0]} onChange={(e) =>
-                    setEndDate(new Date(e.target.value))}/><br/>
+                <label>End date:</label><br/>
+                <input type={"date"} value={endDate.toISOString().split('T')[0]}
+                       onChange={(e) =>
+                           setEndDate(new Date(e.target.value))}/><br/>
 
+                <label>Description:</label><br/>
                 <input type={"text"} value={description} onChange={(e) =>
                     setDescription(e.target.value)}/><br/><br/>
 
