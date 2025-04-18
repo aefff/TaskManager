@@ -10,6 +10,12 @@ function TaskForm({ setCurrentView , addTask}) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        if (!name || !startDate || !endDate || !description) {
+            alert("You must enter a name; start date; end date and a description");
+            return;
+        }
+
         const task = {
             name,
             startDate,
@@ -26,10 +32,19 @@ function TaskForm({ setCurrentView , addTask}) {
             <p>Welcome to the task form</p>
             <button onClick={() => setCurrentView('App')}>Go to homepage</button><br/><br/>
             <form onSubmit={handleSubmit}>
-                <input type={"text"} value={name} onChange={(e) => setName(e.target.value)}/><br/>
-                <input type={"date"} value={startDate} onChange={(e) => setStartDate(e.target.value)}/><br/>
-                <input type={"date"} value={endDate} onChange={(e) => setEndDate(e.target.value)}/><br/>
-                <input type={"text"} value={description} onChange={(e) => setDescription(e.target.value)}/><br/><br/>
+
+                <input type={"text"} value={name} onChange={(e) =>
+                    setName(e.target.value)}/><br/>
+
+                <input type={"date"} value={startDate.toISOString().split('T')[0]} onChange={(e) =>
+                    setStartDate(new Date(e.target.value))}/><br/>
+
+                <input type={"date"} value={endDate.toISOString().split('T')[0]} onChange={(e) =>
+                    setEndDate(new Date(e.target.value))}/><br/>
+
+                <input type={"text"} value={description} onChange={(e) =>
+                    setDescription(e.target.value)}/><br/><br/>
+
                 <input type={"submit"} value={"Submit"}/>
             </form>
         </div>
