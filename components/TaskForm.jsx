@@ -11,15 +11,15 @@ function TaskForm({ setCurrentView , addTask}) {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        if (!name || !startDate || !endDate || !description) {
+        if (!name || !startDate || !endDate || !description || isNaN(startDate.getTime() || isNaN(endDate.getTime()))) {
             alert("You must enter a name; start date; end date and a description");
             return;
         }
 
         const task = {
             name,
-            startDate,
-            endDate,
+            startDate: startDate.toISOString(),
+            endDate: endDate.toISOString(),
             description,
             done
         }
