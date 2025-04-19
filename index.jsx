@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import TaskForm from './components/TaskForm.jsx';
 import TaskList from './components/TaskList.jsx';
 import Lost from './components/Lost.jsx';
+import MonthView from './components/calendar/MonthView.jsx';
 
 function App() {
 
@@ -37,6 +38,7 @@ function App() {
 
                     <button onClick={() => setCurrentView('TaskForm')}>Add a task</button>
                     <button onClick={() => setCurrentView('TaskList')}>Go to task List</button>
+                    <button onClick={() => setCurrentView('MonthView')}>View your calendar</button>
                 </>
             ) : currentView === 'TaskForm' ? (
                 <TaskForm
@@ -55,6 +57,10 @@ function App() {
                     editTask={editTask}
                     setEditingTask={setEditingTask}
                     setEditingIndex={setEditingIndex}
+                />
+            ) : currentView === 'MonthView' ? (
+                <MonthView
+                    setCurrentView={setCurrentView}
                 />
             ) : (
                 <Lost setCurrentView={setCurrentView} />
