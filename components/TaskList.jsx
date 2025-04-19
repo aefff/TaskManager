@@ -9,10 +9,6 @@ function TaskList ({setCurrentView, tasks, deleteTask, editTask, setEditingTask,
         }
     }
 
-    const toggleDone = (id) => {
-        editTask(id, "done", !tasks[id].done);
-    }
-
     return (
         <div>
             <p>View your task list</p>
@@ -25,7 +21,7 @@ function TaskList ({setCurrentView, tasks, deleteTask, editTask, setEditingTask,
                     Description: {task.description} |
                     Completed: {task.done.toString()}
 
-                    <button onClick={() => toggleDone(index)}>
+                    <button onClick={() => {editTask(index, "done", !task.done)}}>
                         {task.done ? "Mark as to do" : "Mark as done"}
                     </button>
 
