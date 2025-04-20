@@ -1,6 +1,6 @@
 import React from 'react';
 
-function TaskList ({setCurrentView, tasks, deleteTask, editTask, setEditingTask, setEditingIndex}) {
+function TaskList ({setCurrentView, tasks, deleteTask, editTask, setEditingTask, setEditingIndex, setEditingFlag}) {
 
     const handleDelete = (id) => {
         const deleteConf = window.confirm("Are you sure you want to delete this task?");
@@ -32,6 +32,7 @@ function TaskList ({setCurrentView, tasks, deleteTask, editTask, setEditingTask,
                     <button onClick={() => {
                         setEditingIndex(index);
                         setEditingTask(task);
+                        setEditingFlag(prevState => !prevState);
                         setCurrentView("TaskForm");
                     }}>
 

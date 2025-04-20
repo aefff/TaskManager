@@ -11,7 +11,7 @@ function App() {
     const [tasks, setTasks] = useState([]); // 💡 Array of task objects
     const [editingTask, setEditingTask] = useState(null);
     const [editingIndex, setEditingIndex] = useState(null);
-
+    const [editingFlag, setEditingFlag] = useState(false);
 
     const addTask = (task) => {
         setTasks(prevTasks => [...prevTasks, task]);
@@ -48,6 +48,8 @@ function App() {
                     editingTask={editingTask}
                     editingIndex={editingIndex}
                     setEditingTask={setEditingTask}
+                    setEditingIndex={setEditingIndex}
+                    editingFlag={editingFlag}
                 />
             ) : currentView === 'TaskList' ? (
                 <TaskList
@@ -57,6 +59,7 @@ function App() {
                     editTask={editTask}
                     setEditingTask={setEditingTask}
                     setEditingIndex={setEditingIndex}
+                    setEditingFlag={setEditingFlag}
                 />
             ) : currentView === 'MonthView' ? (
                 <MonthView

@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 
-function TaskForm ({setCurrentView, addTask, setTasks, editingTask, editingIndex, setEditingTask}){
+function TaskForm ({setCurrentView, addTask, setTasks, editingTask, editingIndex, editingFlag ,setEditingTask, setEditingIndex}){
 
     const [name, setName] = useState("");
     const [startDate, setStartDate] = useState(new Date());
@@ -9,6 +9,7 @@ function TaskForm ({setCurrentView, addTask, setTasks, editingTask, editingIndex
     const [done, setDone] = useState(false);
 
     useEffect(() => {
+        console.log("Editing task at: ", editingTask);
         if (editingTask) {
             setName(editingTask.name);
             setStartDate(new Date(editingTask.startDate));
@@ -22,7 +23,7 @@ function TaskForm ({setCurrentView, addTask, setTasks, editingTask, editingIndex
             setDescription("");
             setDone(false);
         }
-    }, [editingTask]);
+    }, [editingFlag]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -46,6 +47,8 @@ function TaskForm ({setCurrentView, addTask, setTasks, editingTask, editingIndex
             setTasks(prev => {
                 const updatedTasks = [...prev];
                 updatedTasks[editingIndex] = task;
+                setEditingTask(null);
+                setEditingIndex(null);
                 return updatedTasks;
             })
         }
