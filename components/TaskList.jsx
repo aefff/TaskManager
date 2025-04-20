@@ -1,6 +1,17 @@
-import React from 'react';
+import React, {useContext} from 'react';
+import { AppContext } from "../AppContent.jsx";
 
-function TaskList ({setCurrentView, tasks, deleteTask, editTask, setEditingTask, setEditingIndex, setEditingFlag}) {
+function TaskList () {
+
+    const {
+        setCurrentView,
+        tasks,
+        deleteTask,
+        editTask,
+        setEditingTask,
+        setEditingIndex,
+        setEditingFlag
+    } = useContext(AppContext);
 
     const handleDelete = (id) => {
         const deleteConf = window.confirm("Are you sure you want to delete this task?");

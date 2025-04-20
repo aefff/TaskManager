@@ -1,6 +1,17 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
+import { AppContext } from '../AppContent.jsx';
 
-function TaskForm ({setCurrentView, addTask, setTasks, editingTask, editingIndex, editingFlag ,setEditingTask, setEditingIndex}){
+function TaskForm (){
+    const {
+        setCurrentView,
+        addTask,
+        setTasks,
+        editingTask,
+        editingIndex,
+        editingFlag,
+        setEditingTask,
+        setEditingIndex
+    } = useContext(AppContext);
 
     const [name, setName] = useState("");
     const [startDate, setStartDate] = useState(new Date());

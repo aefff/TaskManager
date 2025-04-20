@@ -1,6 +1,10 @@
-import React, { useState } from 'react';
+import React, {useContext, useState} from 'react';
+import { AppContext } from '../../AppContent.jsx';
 
-function MonthView({ setCurrentView }) {
+function MonthView() {
+    const {
+        setCurrentView
+    } = useContext(AppContext);
 
     const [currentMonth, setCurrentMonth] = useState(new Date());
 

@@ -1,6 +1,10 @@
-import React from 'react';
+import React, {useContext} from 'react';
+import { AppContext } from "../AppContent.jsx";
 
-function Lost({ setCurrentView }) {
+function Lost() {
+
+    const {setCurrentView} = useContext(AppContext);
+
     return (
         <div>
             <p>You seem to be lost</p>
