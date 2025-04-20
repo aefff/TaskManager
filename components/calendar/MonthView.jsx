@@ -1,9 +1,11 @@
 import React, {useContext, useState} from 'react';
 import { AppContext } from '../../AppContent.jsx';
+import './Calendar.css';
 
 function MonthView() {
     const {
-        setCurrentView
+        setCurrentView,
+        selectedDay, setSelectedDay,
     } = useContext(AppContext);
 
     const [currentMonth, setCurrentMonth] = useState(new Date());
@@ -12,18 +14,29 @@ function MonthView() {
         let CalenderDay = [];
         const numDaysInMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 0).getDate();
         const startPad = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1).getDay();
-        const endPad = 7 - ((numDaysInMonth + startPad) % 7);
-
-        for (let i = 0; i < startPad; i++) {
-            CalenderDay.push({day: new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, i + 1).getDate(), inCurrentMonth: false});
+        let endPad = 7 - ((numDaysInMonth + startPad) % 7);
+        if (endPad === 7) {
+            endPad = 0;
         }
 
-        for (let i = 0; i < numDaysInMonth; i++) {
-            CalenderDay.push({day: i + 1, inCurrentMonth: true});
+        for (let i = startPad; i > 0; i--) {
+            CalenderDay.push(
+                {
+                    day: new Date(currentMonth.getFullYear(),
+                        currentMonth.getMonth() - 1,
+                        new Date(currentMonth.getFullYear(),
+                            currentMonth.getMonth(), 0).getDate() - i + 1),
+                    inCurrentMonth: false
+                }
+            );
         }
 
-        for (let i = 0; i < endPad; i++) {
-            CalenderDay.push({day: i + 1, inCurrentMonth: false});
+        for (let i = 1; i <= numDaysInMonth; i++) {
+            CalenderDay.push({ day: new Date(currentMonth.getFullYear(), currentMonth.getMonth(), i), inCurrentMonth: true });
+        }
+
+        for (let i = 1; i <= endPad; i++) {
+            CalenderDay.push({ day: new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, i), inCurrentMonth: false });
         }
 
         let TwoDCalendar = [];
@@ -40,30 +53,58 @@ function MonthView() {
     }
 
     return (
-        <div>
+        <div className="Calendar">
             This is the month view |
-            <button onClick={() => { setCurrentView('App') }}>Go back home</button><br />
+            <button onClick={() => {
+                setCurrentView('App')
+            }}>Go back home</button><br/>
 
-            {currentMonth.toLocaleString('default', { month: 'long' })}
+            <p className={'month'}>
+                {currentMonth.toLocaleString('default', {month: 'long'})}
+            </p>
 
-            <button onClick={() => { setCurrentMonth(prevState =>
-                new Date(prevState.setMonth(currentMonth.getMonth() - 1))); } }>
+            <button onClick={() => {
+                setCurrentMonth(prevState =>
+                    new Date(prevState.setMonth(currentMonth.getMonth() - 1)));
+            }}>
                 &lt;
             </button>
 
-            <button onClick={() => { setCurrentMonth(prevState =>
-                new Date(prevState.setMonth(currentMonth.getMonth() + 1))) } }>
+            <button onClick={() => {
+                setCurrentMonth(prevState =>
+                    new Date(prevState.setMonth(currentMonth.getMonth() + 1)))
+            }}>
                 &gt;
             </button>
 
+            <div className="week">
+                {["sun", "mon", "tue", "wed", "thu", "fri", "sat"].map((day, i) => (
+                    <span className="day header" key={i}>
+                        {day.toUpperCase()}
+                    </span>
+                ))}
+            </div>
+
             {currentMonthArray().map((week, index) => (
-                <div key={index}>
+                <div
+                    key={index}
+                    className={'week'}
+                >
                     {week.map(({day, inCurrentMonth}, i2) => (
-                        <span key={i2} style ={{fontWeight : inCurrentMonth ? 'bold' : 'normal'}}>
-                            {day}|
+                        <span
+                            key={i2}
+                            className={`day ${inCurrentMonth ? 'currentMonth' : 'otherMonth'} ${selectedDay && selectedDay.getTime() === day.getTime() ? 'selected' : ''}`}
+                            onClick={() => {
+                                if (selectedDay?.getTime() === day.getTime()) {
+                                    setSelectedDay(null);
+                                } else {
+                                    setSelectedDay(day);
+                                }
+                            }}
+                        >
+                            {day.getDate()}
                         </span>
                     ))}
-                    <br />
                 </div>
             ))}
         </div>

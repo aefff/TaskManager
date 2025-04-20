@@ -1,0 +1,64 @@
+body {
+    background-color: darkviolet;
+}
+
+.month {
+    font-size: 3em;
+    margin: 0;
+    color: #999;
+    text-align: center; /* Center the month title */
+}
+
+.week {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    background-color: #f3f3f3; /* Lighter background for weeks */
+    margin: 0;
+    line-height: 1.5;
+    gap: 0;
+    border-radius: 5px;
+}
+
+.day {
+    font-size: 2em;
+    padding: 20px 0; /* Increase padding for better spacing */
+    border: 2px solid #ccc;
+    background-color: #fff;
+    cursor: pointer;
+    text-align: center; /* Center text within each day */
+    border-radius: 5px; /* Rounded corners for better aesthetics */
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition */
+}
+
+.currentMonth {
+    font-weight: bold;
+    color: #2a2a2a;
+}
+
+.week:hover .day {
+    background-color: #6a1b9a; /* A slightly different purple for hover */
+    color: #fff;
+}
+
+.week .day:hover {
+    background-color: #74b9ff; /* A calm blue background for the hovered day */
+    color: #333; /* Text color for hover effect */
+    transform: scale(1.05); /* Slight scaling for hover effect */
+}
+
+.selected {
+    background-color: #00b894; /* Bright teal-green */
+    color: #fff !important;    /* Ensure it's visible even with week/day hover */
+    font-weight: bold;
+    border: 2px solid #019875;
+    z-index: 1;
+    position: relative;
+}
+
+.day.header {
+    font-weight: bold;
+    background-color: #f0f0f0;
+    border-bottom: 1px solid #ccc;
+    color: #333;
+    cursor: default;
+}
