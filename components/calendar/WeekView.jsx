@@ -1,11 +1,16 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect} from 'react';
 import {AppContext} from "../../AppContent";
 import './Calendar.css';
 
 function WeekView() {
     const {
-        setCurrentView
+        setCurrentView,
+        selectedDay,
     } = useContext(AppContext)
+
+    useEffect(() => {
+
+    }, [])
 
     return (
         <div className="WeekView">
@@ -23,8 +28,16 @@ function WeekView() {
 
             <div className="week table">
                 {["time", "sun", "mon", "tue", "wed", "thu", "fri", "sat"].map((day, i) => (
-                    <span className="day header" key={i}>
-                        {day.toUpperCase()}
+                    <span className={`day header 
+                    ${(selectedDay.getDay()===(i - 1))? "selected" : ""}`} key={i}>
+                        {
+                            (i>0)?
+                                `${day.toUpperCase()} 
+                                ${new Date(selectedDay.getFullYear(),
+                                    selectedDay.getMonth(),
+                                    (selectedDay.getDate() - (Math.abs(i - 1 - selectedDay.getDay())))).getDate()}` :
+                                day.toUpperCase()
+                        }
                     </span>
                 ))}
             </div>
