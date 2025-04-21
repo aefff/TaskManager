@@ -19,6 +19,10 @@ body {
     border-radius: 5px;
 }
 
+.week.table {
+    grid-template-columns: repeat(8, 1fr);
+}
+
 .day {
     font-size: 2em;
     padding: 20px 0; /* Increase padding for better spacing */
@@ -61,4 +65,31 @@ body {
     border-bottom: 1px solid #ccc;
     color: #333;
     cursor: default;
+}
+
+.selectedTrue {
+    background-color: #f0f0f0;
+}
+
+.selectedFalse {
+    background-color: #bcbcbc;
+}
+
+.currentDay {
+    background-color: #Ffa500;
+}
+
+.scrollable-table {
+    height: 545px;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+    border: 1px solid #ccc;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.scrollable-table .week.table.row {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+
 }

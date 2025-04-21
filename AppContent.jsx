@@ -9,7 +9,7 @@ export const AppProvider = ({ children }) => {
     const [editingTask, setEditingTask] = useState(null);
     const [editingIndex, setEditingIndex] = useState(null);
     const [editingFlag, setEditingFlag] = useState(false);
-    const [selectedDay, setSelectedDay] = useState(new Date());
+    const [selectedDay, setSelectedDay] = useState(null);
 
     const addTask = (task) => {
         setTasks(prevTasks => [...prevTasks, task]);

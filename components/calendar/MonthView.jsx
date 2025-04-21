@@ -77,6 +77,20 @@ function MonthView() {
                 &gt;
             </button>
 
+            <button className={`weekButton ${selectedDay? 'selectedTrue': 'selectedFalse'}`}
+                    onClick={() => {
+                if (selectedDay) {setCurrentView('WeekView');}
+            }}>
+                Week view
+            </button>
+
+            <button className={`dayButton ${selectedDay? 'selectedTrue': 'selectedFalse'}`}
+                    onClick={() => {
+                        if (selectedDay) {setCurrentView('DayView');}
+                    }}>
+                Day view
+            </button>
+
             <div className="week">
                 {["sun", "mon", "tue", "wed", "thu", "fri", "sat"].map((day, i) => (
                     <span className="day header" key={i}>
@@ -93,7 +107,7 @@ function MonthView() {
                     {week.map(({day, inCurrentMonth}, i2) => (
                         <span
                             key={i2}
-                            className={`day ${inCurrentMonth ? 'currentMonth' : 'otherMonth'} ${selectedDay && selectedDay.getTime() === day.getTime() ? 'selected' : ''}`}
+                            className={`day ${inCurrentMonth ? 'currentMonth' : 'otherMonth'} ${selectedDay && selectedDay.getTime() === day.getTime() ? 'selected' : ''} ${(day.getTime() === new Date().getTime()) ? 'currentDay' : ''}`}
                             onClick={() => {
                                 if (selectedDay?.getTime() === day.getTime()) {
                                     setSelectedDay(null);

@@ -5,6 +5,8 @@ import TaskForm from './components/TaskForm.jsx';
 import TaskList from './components/TaskList.jsx';
 import Lost from './components/Lost.jsx';
 import MonthView from './components/calendar/MonthView.jsx';
+import WeekView from './components/calendar/WeekView.jsx';
+import DayView from './components/calendar/DayView.jsx';
 
 function App() {
 
@@ -25,6 +27,8 @@ function App() {
                 ) : currentView === 'TaskForm' ? (<TaskForm/>
                 ) : currentView === 'TaskList' ? (<TaskList/>
                 ) : currentView === 'MonthView' ? (<MonthView/>
+                ) : currentView === 'WeekView' ? (<WeekView/>
+                ) : currentView === 'DayView' ? (<DayView/>
                 ) : (<Lost/>)
             }
         </div>
