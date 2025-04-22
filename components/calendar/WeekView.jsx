@@ -1,16 +1,20 @@
-import React, {useContext, useEffect} from 'react';
+import React, {useContext} from 'react';
 import {AppContext} from "../../AppContent";
 import './Calendar.css';
 
 function WeekView() {
     const {
         setCurrentView,
+        setSelectedDay,
         selectedDay,
     } = useContext(AppContext)
 
-    useEffect(() => {
+    const Sunday = new Date(selectedDay.getTime());
+    Sunday.setDate(selectedDay.getDate() - selectedDay.getDay());
 
-    }, [])
+    const weekDates = Array.from({length: 7}, (_, i) => {
+        return new Date(Sunday.getFullYear(), Sunday.getMonth(), Sunday.getDate() + i);
+    })
 
     return (
         <div className="WeekView">
@@ -27,19 +31,20 @@ function WeekView() {
             </button>
 
             <div className="week table">
-                {["time", "sun", "mon", "tue", "wed", "thu", "fri", "sat"].map((day, i) => (
-                    <span className={`day header 
-                    ${(selectedDay.getDay()===(i - 1))? "selected" : ""}`} key={i}>
-                        {
-                            (i>0)?
-                                `${day.toUpperCase()} 
-                                ${new Date(selectedDay.getFullYear(),
-                                    selectedDay.getMonth(),
-                                    (selectedDay.getDate() - (Math.abs(i - 1 - selectedDay.getDay())))).getDate()}` :
-                                day.toUpperCase()
-                        }
-                    </span>
-                ))}
+                <span className={'day header'}>
+                    TIME
+                </span>
+                {
+                    weekDates.map((date, i) => (
+                        <div key={i}
+                        className={`day header ${(selectedDay.getTime() === date.getTime()) ? 'selected' : ''}`}
+                        onClick={() => setSelectedDay(date)}>
+
+                            {`${date.getDate()} ${date.toLocaleDateString('en-GB', {weekday: 'short'})}`}
+
+                        </div>
+                    ))
+                }
             </div>
 
             <div className={"scrollable-table"}>
