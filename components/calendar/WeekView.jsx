@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import {AppContext} from "../../AppContent";
 import './Calendar.css';
 
@@ -9,17 +9,15 @@ function WeekView() {
         selectedDay,
     } = useContext(AppContext)
 
-    const Sunday = new Date(selectedDay.getTime());
-    Sunday.setDate(selectedDay.getDate() - selectedDay.getDay());
+    const [sunday, setSunday] = useState(new Date(selectedDay.getFullYear(), selectedDay.getMonth(), selectedDay.getDate() - selectedDay.getDay()))
 
     const weekDates = Array.from({length: 7}, (_, i) => {
-        return new Date(Sunday.getFullYear(), Sunday.getMonth(), Sunday.getDate() + i);
+        return new Date(sunday.getFullYear(), sunday.getMonth(), sunday.getDate() + i);
     })
 
     return (
         <div className="WeekView">
             Weeks
-
             <button className={`monthButton selectedTrue`}
                     onClick={() => setCurrentView('MonthView')}>
                 Month view
@@ -30,6 +28,21 @@ function WeekView() {
                 Day view
             </button>
 
+            <button onClick={() => {
+                const NewSunday = new Date(sunday);
+                NewSunday.setDate(NewSunday.getDate() - 7);
+                setSunday(NewSunday);
+            }}>
+                &lt;
+            </button>
+            <button onClick={() => {
+                const NewSunday = new Date(sunday);
+                NewSunday.setDate(NewSunday.getDate() + 7);
+                setSunday(NewSunday);
+            }}>
+                &gt;
+            </button>
+
             <div className="week table">
                 <span className={'day header'}>
                     TIME
@@ -37,7 +50,7 @@ function WeekView() {
                 {
                     weekDates.map((date, i) => (
                         <div key={i}
-                        className={`day header ${(selectedDay.getTime() === date.getTime()) ? 'selected' : ''}`}
+                        className={`day header ${(selectedDay.toDateString() === date.toDateString()) ? 'selected' : ''}`}
                         onClick={() => setSelectedDay(date)}>
 
                             {`${date.getDate()} ${date.toLocaleDateString('en-GB', {weekday: 'short'})}`}
@@ -48,6 +61,7 @@ function WeekView() {
             </div>
 
             <div className={"scrollable-table"}>
+
                 {Array.from({length: 24}, ((_, index) => index)).map((_, index) => (
                     <div key={index} className="week table row">
                         <span className={"day"}>

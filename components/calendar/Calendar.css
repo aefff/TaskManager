@@ -33,6 +33,11 @@ body {
     grid-template-columns: repeat(8, 1fr);
 }
 
+.days.table.row {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+}
+
 /* === DAY & CELL STYLING === */
 .day {
     font-size: 2em;
@@ -112,12 +117,14 @@ body {
 }
 
 /* === INTERACTIONS === */
-.week:hover .day {
+.week:hover .day,
+.days:hover .day{
     background-color: #6a1b9a;
     color: #fff;
 }
 
-.week .day:hover {
+.week .day:hover,
+.days .day:hover{
     background-color: #74b9ff;
     color: #333;
     transform: scale(1.05);
